@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EditModalContent from './templates/Modal';
+import EditModalContent from './templates/EditModalContent';
 import ModalWindow from '../general/ModalWindow';
 
 import { startAddRecord } from '../../actions/records';

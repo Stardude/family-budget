@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-class Modal extends React.Component {
+class EditModalContent extends React.Component {
     state = {
         currency: this.props.currency ? { label: this.props.currency, value: this.props.currency } : null
     };
@@ -68,4 +68,4 @@ class Modal extends React.Component {
     }
 }
 
-export default Modal;
+export default EditModalContent;

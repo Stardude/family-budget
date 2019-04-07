@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { startAddAccount, startGetAccountByName } from '../../actions/accounts';
 import { checkIfValuesExist } from '../../utils/utils';
 
-import EditModalContent from './templates/Modal';
+import EditModalContent from './templates/EditModalContent';
 import ModalWindow from '../general/ModalWindow';
 
 class NewAccount extends React.Component {

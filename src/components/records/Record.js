@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Static from './templates/Static';
+import Static from './templates/StaticContent';
 import Edit from './templates/Edit';
 
 import { startEditRecord } from '../../actions/records';

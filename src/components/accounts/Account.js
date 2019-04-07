@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Edit from './templates/Edit';
-import Static from './templates/Static';
+import Static from './templates/StaticContent';
 
 import { startEditAccount, startGetAccountByName } from '../../actions/accounts';
 import { checkIfValuesExist } from "../../utils/utils";

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = (props) => (
+const EditModalContent = (props) => (
     <form onSubmit={props.onSubmit} onKeyUp={props.onCancel} >
         <div className="list-item">
             <div className="list-item__section size-30">
@@ -28,4 +28,4 @@ const Modal = (props) => (
     </form>
 );
 
-export default Modal;
+export default EditModalContent;

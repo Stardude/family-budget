@@ -7,7 +7,7 @@ import ReactTooltip from 'react-tooltip';
 
 import Checkbox from '../../general/Checkbox';
 
-class Modal extends React.Component {
+class EditModalContent extends React.Component {
     state = {
         category: this.props.name ? { label: this.props.name, value: this.props.categoryId } : null,
         date: this.props.recordDate ? moment(this.props.recordDate).toDate() : moment().startOf('day').toDate()
@@ -107,4 +107,4 @@ const mapStateToProps = (state) => ({
     categories: state.categories.map(category => ({ label: category.name, value: category.id }))
 });
 
-export default connect(mapStateToProps)(Modal);
+export default connect(mapStateToProps)(EditModalContent);
