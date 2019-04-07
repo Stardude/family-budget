@@ -1,0 +1,7 @@
+node_modules/
+playground/
+package-lock.json
+.idea/
+public/bundle.js
+server/db/.database
+server/db/.database1

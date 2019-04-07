@@ -1,0 +1,117 @@
+.header {
+    background: $main-color;
+    color: $text-main-color;
+    padding: $s-size;
+    text-align: center;
+}
+
+.header__title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 3.2rem;
+}
+
+.body {
+    margin: $l-size $xl-size;
+}
+
+.body__main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.main {
+    display: flex;
+    width: 75%;
+    border-radius: $bd-radius;
+    background: $main-color;
+    margin-right: $s-size / 2;
+}
+
+.sidebar {
+    display: flex;
+    width: 25%;
+    border-radius: $bd-radius;
+    background: $main-color;
+    margin-left: $s-size / 2;
+}
+
+.menu-bar {
+    display: flex;
+    width: 100%;
+    border-radius: $bd-radius;
+    background: $main-color;
+    margin-bottom: $s-size;
+}
+
+.button {
+    border: 0.2rem solid $text-main-color;
+    border-radius: $bd-radius;
+    background: none;
+
+    &:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    padding: 0.5rem;
+    display: inline-block;
+
+    outline: none;
+    font-weight: 600;
+    color: $text-main-color;
+    line-height: 1.15;
+    text-decoration: none !important;
+
+    &:hover {
+        background: darken($text-second-color, 20%);
+    }
+}
+
+.checkbox-container {
+    .checkbox {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+    .checkbox + label {
+        position: relative;
+        cursor: pointer;
+    }
+    .checkbox + label:before {
+        content: '';
+        position: absolute;
+        top: -1.5rem;
+        left: 0;
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 50%;
+        border: 0.2rem solid $text-main-color;
+        background: none;
+        box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+        transition: .2s;
+    }
+    .checkbox + label:after {
+        content: '';
+        position: absolute;
+        top: -1rem;
+        left: 0.5rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: $text-main-color;
+        box-shadow: 0 2px 5px rgba(0,0,0,.3);
+        transition: .2s;
+        display: none;
+    }
+    .checkbox:checked + label:before {
+        background: darken($text-second-color, 20%);
+    }
+    .checkbox:checked + label:after {
+        display: block;
+    }
+    .checkbox:hover + label:before {
+        background: darken($text-second-color, 20%);
+    }
+}
+
+

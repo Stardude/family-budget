@@ -1,0 +1,25 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: $font;
+    font-size: $m-size;
+    margin: 0;
+
+    background: $bg-color;
+}
+
+button, a {
+    cursor: pointer;
+}
+
+a {
+    color: $text-main-color;
+    text-decoration: none;
+    font-size: $m-size;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
