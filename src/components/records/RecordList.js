@@ -7,6 +7,8 @@ import Record from './Record';
 import { startGetRecordsForAccount } from "../../actions/records";
 import { startGetAllCategories } from "../../actions/categories";
 
+import { filterRecords, sortRecords } from '../../utils/utils';
+
 class RecordList extends React.Component {
     state = {
         accountId: this.props.accountId
@@ -34,8 +36,7 @@ class RecordList extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-    records: state.records.sort((a, b) => moment(a.recordDate).isAfter(b.recordDate) ? -1 :
-        (moment(a.recordDate).isBefore(b.recordDate) ? 1 : (a.id > b.id ? -1: 1))),
+    records: sortRecords(filterRecords(state.records)),
     accountId: state.accounts.length !== 0 ?
         state.accounts.filter(account => account.id === parseInt(props.match.params.id))[0].id :
         null

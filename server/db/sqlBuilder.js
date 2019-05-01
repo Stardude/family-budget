@@ -96,6 +96,21 @@ class SqlBuilder {
         return this;
     }
 
+    or () {
+        this.query += `OR `;
+        return this;
+    }
+
+    openBrackets () {
+        this.query += `( `;
+        return this;
+    }
+
+    closeBrackets () {
+        this.query += `) `;
+        return this;
+    }
+
     one () {
         this.method = 'GET_ONE';
         return this;

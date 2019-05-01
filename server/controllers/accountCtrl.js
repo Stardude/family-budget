@@ -27,6 +27,12 @@ router.post('/', (req, res) => {
         .catch(() => res.sendStatus(500));
 });
 
+router.post('/transfer', (req, res) => {
+    service.transfer(req.body)
+        .then(result => res.status(201).send(result))
+        .catch(() => res.sendStatus(500));
+});
+
 router.put('/:id', (req, res) => {
     service.updateAndGet(req.params.id, req.body)
         .then(result => res.status(201).send(result))

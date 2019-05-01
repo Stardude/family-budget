@@ -1,1 +1,3 @@
-node index.js & google-chrome http://localhost:3000
+#!/bin/bash
+cd /home/ychubei/Projects/FamilyBudget/server
+nodemon index.js

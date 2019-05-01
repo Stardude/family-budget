@@ -21,6 +21,11 @@ export const deleteRecord = (id) => ({
     id
 });
 
+export const filterRecords = (filter) => ({
+    type: 'RECORD_FILTER',
+    filter
+});
+
 export const startGetRecordsForAccount = (accountId) => dispatch => axios.get('/api/records', {params: {accountId}})
     .then(response => dispatch(addRecordList(response.data)));
 

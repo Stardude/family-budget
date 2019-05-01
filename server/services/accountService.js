@@ -4,6 +4,10 @@ const Account = require('./../models/Account');
 const SqlBuilder = require('./../db/sqlBuilder');
 const execute = require('./../db/dbExecutor');
 
+const recordService = require('./recordService');
+
+const TRANSFER_ID = 26;
+
 module.exports.create = newAccount => {
     const account = new Account(newAccount);
     delete account.id;
@@ -45,5 +49,28 @@ module.exports.updateAndGet = (id, updated) => {
 
 module.exports.delete = id => {
     const sqlData = new SqlBuilder('accounts').delete().where().eq({ label: null, column: 'id' }, id);
-    return execute(sqlData);
+    return execute(sqlData).then(() => recordService.deleteByField('accountId', id));
+};
+
+module.exports.transfer = parameters => {
+    return recordService.createAndGet({
+        accountId: parameters.source,
+        categoryId: TRANSFER_ID,
+        price: parameters.amount,
+        amount: 1,
+        isIncome: false,
+        comment: `${parameters.destinationName}: ${parameters.comment}`
+    }).then(record => recordService.create({
+        accountId: parameters.destination,
+        categoryId: TRANSFER_ID,
+        price: parameters.total,
+        amount: 1,
+        isIncome: true,
+        comment: `${parameters.sourceName}: ${parameters.comment}`,
+        transferRecordId: record.id
+    }).then(result => recordService.update(record.id, Object.assign(record, { transferRecordId: result.lastID }))
+    )).then(() => Promise.all([
+        module.exports.getOneById(parameters.source),
+        module.exports.getOneById(parameters.destination)
+    ]).then(accounts => ({source: accounts[0], destination: accounts[1]})));
 };

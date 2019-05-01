@@ -11,8 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const data = req.body;
-    service.create(data)
+    service.createAndGet(req.body)
         .then(result => res.status(200).send(result))
         .catch(() => res.sendStatus(500));
 });

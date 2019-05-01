@@ -5,22 +5,40 @@ import ReactTooltip from 'react-tooltip';
 
 import ModalWindow from "../../general/ModalWindow";
 import DeleteModalContent from "../../general/DeleteModalContent";
+import EditModalContent from "./EditModalContent";
 
-import { startDeleteRecord } from '../../../actions/records';
+import { startDeleteRecord, startEditRecord } from '../../../actions/records';
+import { checkIfValuesExist } from "../../../utils/utils";
 
 class StaticContent extends React.Component {
     state = {
-        deleteId: null
+        isDeleteItem: false,
+        isEditItem: false
     };
 
-    onSubmit = e => {
-        this.props.deleteRecord(this.state.deleteId);
-        this.setState({ deleteId: null });
+    onDeleteSubmit = e => {
+        this.props.deleteRecord(this.props.id);
+        this.setState({ isDeleteItem: false });
+    };
+
+    onEditSubmit = (e, categoryId, date) => {
+        e.preventDefault();
+        const price = e.target.price.value.trim();
+        const amount = e.target.amount.value.trim();
+        const comment = e.target.comment.value.trim();
+        const isIncome = e.target.isIncome.checked;
+        const accountId = this.props.accountId;
+
+        if (checkIfValuesExist(categoryId, date, price, amount, accountId)) {
+            this.props.editRecord(this.props.id, {categoryId, date, price, amount, comment, accountId, isIncome}).then(() => {
+                this.setState({ isEditItem: false });
+            });
+        }
     };
 
     onCancel = e => {
         if (e.type === 'click' || e.keyCode === 27) {
-            this.setState({ deleteId: null });
+            this.setState({ isDeleteItem: false, isEditItem: false });
         }
     };
 
@@ -42,25 +60,34 @@ class StaticContent extends React.Component {
                     <span>x{this.props.amount}</span>
                 </div>
                 <div className="list-item__section size-20 align-right">
-                    <button className="button" onClick={this.props.onEdit}>Edit</button>
-                    <button className="button" onClick={e => this.setState({ deleteId: this.props.id })}>Remove</button>
+                    <button className="button" onClick={e => this.setState({ isEditItem: true })}>Edit</button>
+                    <button className="button" onClick={e => this.setState({ isDeleteItem: true })}>Remove</button>
                 </div>
-                {this.state.deleteId &&
-                <ModalWindow isOpen={!!this.state.deleteId} onClose={this.onCancel}>
-                    <DeleteModalContent onSubmit={this.onSubmit} onCancel={this.onCancel} >
-                        <p>
-                            Are you sure you want to delete record
-                            <br/>'{this.props.name}' ({moment(this.props.recordDate).format('DD-MMM-YYYY')}) ?
-                        </p>
-                    </DeleteModalContent>
-                </ModalWindow>}
+                {
+                    this.state.isDeleteItem &&
+                    <ModalWindow isOpen={this.state.isDeleteItem} onClose={this.onCancel}>
+                        <DeleteModalContent onSubmit={this.onDeleteSubmit} onCancel={this.onCancel} >
+                            <p>
+                                Are you sure you want to delete record
+                                <br/>'{this.props.name}' ({moment(this.props.recordDate).format('DD-MMM-YYYY')}) ?
+                            </p>
+                        </DeleteModalContent>
+                    </ModalWindow>
+                }
+                {
+                    this.state.isEditItem &&
+                    <ModalWindow isOpen={this.state.isEditItem} onClose={this.onCancel}>
+                        <EditModalContent {...this.props} onSubmit={this.onEditSubmit} onCancel={this.onCancel} />
+                    </ModalWindow>
+                }
             </div>
         );
     }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    deleteRecord: id => dispatch(startDeleteRecord(id))
+    deleteRecord: (id) => dispatch(startDeleteRecord(id)),
+    editRecord: (id, updates) => dispatch(startEditRecord(id, updates))
 });
 
 export default connect(null, mapDispatchToProps)(StaticContent);

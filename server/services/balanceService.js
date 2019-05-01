@@ -17,7 +17,7 @@ module.exports.synchronizeAccountBalance = accountId => {
         if (result.length === 2) {
             balance = result[1].total - result[0].total;
         } else if (result.length === 1) {
-            balance = result[0].isIncome ? result[0].total : -result[0].total;
+            balance = result[0].isIncome === 'true' ? result[0].total : -result[0].total;
         }
 
         return accountService.getOneById(accountId).then(account => {

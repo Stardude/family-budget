@@ -35,3 +35,9 @@ export const startEditAccount = (id, updates) => dispatch => axios.put(`/api/acc
 
 export const startDeleteAccount = id => dispatch => axios.delete(`/api/accounts/${id}`)
     .then(response => dispatch(deleteAccount(id)));
+
+export const startTransfer = parameters => dispatch => axios.post('/api/accounts/transfer', parameters)
+    .then(response => {
+        dispatch(editAccount(parameters.source, response.data.source));
+        dispatch(editAccount(parameters.destination, response.data.destination));
+    });

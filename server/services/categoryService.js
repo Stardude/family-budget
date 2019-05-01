@@ -4,6 +4,8 @@ const Category = require('./../models/Category');
 const SqlBuilder = require('./../db/sqlBuilder');
 const execute = require('./../db/dbExecutor');
 
+const recordService = require('./recordService');
+
 module.exports.create = newCategory => {
     const category = new Category(newCategory);
     delete category.id;
@@ -41,5 +43,5 @@ module.exports.update = (id, updated) => {
 
 module.exports.delete = id => {
     const sqlData = new SqlBuilder('categories').delete().where().eq({ label: null, column: 'id' }, id);
-    return execute(sqlData);
+    return execute(sqlData).then(() => recordService.deleteByField('categoryId', id));
 };

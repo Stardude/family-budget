@@ -7,6 +7,8 @@ import ReactTooltip from 'react-tooltip';
 
 import Checkbox from '../../general/Checkbox';
 
+import { convertToSelectList } from '../../../utils/utils';
+
 class EditModalContent extends React.Component {
     state = {
         category: this.props.name ? { label: this.props.name, value: this.props.categoryId } : null,
@@ -44,30 +46,6 @@ class EditModalContent extends React.Component {
                 </div>
                 <div className="list-item">
                     <div className="list-item__section size-30">
-                        <div>Date:</div>
-                    </div>
-                    <div className="list-item__section size-70">
-                        <DatePicker
-                            className="list-item__date-picker"
-                            calendarClassName="list-item__react-calendar"
-                            value={this.state.date}
-                            clearIcon={null}
-                            calendarIcon={null}
-                            showLeadingZeros={true}
-                            onChange={date => this.onChange({date})}
-                        />
-                    </div>
-                </div>
-                <div className="list-item">
-                    <div className="list-item__section size-30">
-                        <div>Is Income:</div>
-                    </div>
-                    <div className="list-item__section size-70">
-                        <Checkbox className="list-item__input" name="isIncome" defaultChecked={this.props.isIncome === 'true'} />
-                    </div>
-                </div>
-                <div className="list-item">
-                    <div className="list-item__section size-30">
                         <div>Price:</div>
                     </div>
                     <div className="list-item__section size-70">
@@ -90,6 +68,30 @@ class EditModalContent extends React.Component {
                         <input className="list-item__input" type="text" name="comment" placeholder="Comment" defaultValue={this.props.comment} />
                     </div>
                 </div>
+                <div className="list-item">
+                    <div className="list-item__section size-30">
+                        <div>Is Income:</div>
+                    </div>
+                    <div className="list-item__section size-70">
+                        <Checkbox className="list-item__input" name="isIncome" defaultChecked={this.props.isIncome === 'true'} />
+                    </div>
+                </div>
+                <div className="list-item">
+                    <div className="list-item__section size-30">
+                        <div>Date:</div>
+                    </div>
+                    <div className="list-item__section size-70">
+                        <DatePicker
+                            className="list-item__date-picker"
+                            calendarClassName="list-item__react-calendar"
+                            value={this.state.date}
+                            clearIcon={null}
+                            calendarIcon={null}
+                            showLeadingZeros={true}
+                            onChange={date => this.onChange({date})}
+                        />
+                    </div>
+                </div>
                 <div className="list-item list-item--justify-end">
                     <div className="list-item__section">
                         <button className="button">Save</button>
@@ -104,7 +106,7 @@ class EditModalContent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    categories: state.categories.map(category => ({ label: category.name, value: category.id }))
+    categories: convertToSelectList(state.categories, 'name', 'id')
 });
 
 export default connect(mapStateToProps)(EditModalContent);

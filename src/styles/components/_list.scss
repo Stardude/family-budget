@@ -154,6 +154,19 @@
 
     .react-date-picker__button {
         padding: 0;
+        outline: none;
+    }
+
+    .react-date-picker__clear-button {
+        margin: 0 0.5rem 0.1rem 0;
+
+        svg g {
+            stroke: $text-main-color;
+        }
+
+        &:hover svg g, &:focus svg g {
+            stroke: darken($text-second-color, 20%);
+        }
     }
 }
 

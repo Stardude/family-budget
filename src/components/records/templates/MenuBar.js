@@ -3,6 +3,8 @@ import queryString from "query-string";
 
 import NewRecord from '../NewRecord';
 import MenuBar from '../../general/MenuBar';
+import RecordsCategoryFilter from './RecordsCategoryFilter';
+import RecordsDateFilter from './RecordsDateFilter';
 
 class RecordsMenuBar extends React.Component {
     state = {
@@ -23,6 +25,8 @@ class RecordsMenuBar extends React.Component {
                     accountId={parseInt(this.props.match.params.id)}
                     isAddNewListItem={this.state.isAddNewListItem}
                 />
+                <RecordsCategoryFilter />
+                <RecordsDateFilter />
             </MenuBar>
         );
     }
