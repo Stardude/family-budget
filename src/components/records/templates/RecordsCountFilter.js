@@ -6,15 +6,16 @@ import { convertToSelectList } from '../../../utils/utils';
 import { addFilter } from '../../../actions/filters';
 import { startGetRecordsForAccount } from '../../../actions/records';
 
-class RecordsCategoryFilter extends React.Component {
+class RecordsCountFilter extends React.Component {
     state = {
-        category: this.props.categories[0]
+        countValue: this.props.countValues[0]
     };
 
     onChange = newState => {
         this.props.applyFilterToRecords({
             ...this.props.filters,
-            categoryId: newState.category.value
+            limit: newState.countValue.value,
+            offset: 0
         });
 
         this.setState(newState);
@@ -22,32 +23,33 @@ class RecordsCategoryFilter extends React.Component {
 
     render() {
         return (
-            <div className="list-item__section" style={{ width: '20rem' }} >
+            <div className="list-item__section" style={{ width: '9rem' }} >
                 <Select
                     className="list-item__select-container"
                     classNamePrefix="list-item__select"
-                    value={this.state.category}
-                    onChange={category => this.onChange({category})}
-                    options={this.props.categories}
-                    autoFocus
+                    value={this.state.countValue}
+                    onChange={countValue => this.onChange({countValue})}
+                    options={this.props.countValues}
                 />
             </div>
         );
     }
 }
 
-const addDisplayAllValue = categories => [{ id: null, name: 'Show All' }].concat(categories);
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     filters: state.filters,
-    categories: convertToSelectList(addDisplayAllValue(state.categories), 'name', 'id')
+    countValues: convertToSelectList([
+        { label: '10', value: 10 },
+        { label: '100', value: 100 },
+        { label: 'ALL', value: null }
+    ], 'label', 'value')
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     applyFilterToRecords: (filter) => {
         dispatch(addFilter(filter));
         dispatch(startGetRecordsForAccount(filter));
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecordsCategoryFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(RecordsCountFilter);

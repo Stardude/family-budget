@@ -4,8 +4,8 @@ class Record {
     constructor (record) {
         this.id = record.id || '';
         this.creationDate = record.creationDate || new Date();
-        this.modificationDate = new Date();
-        this.recordDate = record.recordDate || moment().startOf('day').toDate();
+        this.modificationDate = record.modificationDate || new Date();
+        this.recordDate = record.recordDate || moment().startOf('day').toISOString();
         this.accountId = record.accountId || '';
         this.categoryId = record.categoryId || '';
         this.price = record.price || 0;

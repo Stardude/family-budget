@@ -4,8 +4,7 @@ const router = express.Router();
 const service = require('./../services/recordService');
 
 router.get('/', (req, res) => {
-    const {accountId} = req.query;
-    service.getAll(accountId)
+    service.getAll(req.query)
         .then(result => res.status(200).send(result))
         .catch(() => res.sendStatus(500));
 });

@@ -5,6 +5,8 @@ import NewRecord from '../NewRecord';
 import MenuBar from '../../general/MenuBar';
 import RecordsCategoryFilter from './RecordsCategoryFilter';
 import RecordsDateFilter from './RecordsDateFilter';
+import RecordsCountFilter from './RecordsCountFilter';
+import RecordsNavigationFilter from './RecordsNavigationFilter';
 
 class RecordsMenuBar extends React.Component {
     state = {
@@ -27,6 +29,8 @@ class RecordsMenuBar extends React.Component {
                 />
                 <RecordsCategoryFilter />
                 <RecordsDateFilter />
+                <RecordsCountFilter />
+                <RecordsNavigationFilter />
             </MenuBar>
         );
     }

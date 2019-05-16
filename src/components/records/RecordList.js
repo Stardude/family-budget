@@ -1,13 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Record from './Record';
 
-import { startGetRecordsForAccount } from "../../actions/records";
-import { startGetAllCategories } from "../../actions/categories";
+import { startGetRecordsForAccount } from '../../actions/records';
+import { startGetAllCategories } from '../../actions/categories';
+import { addFilter } from '../../actions/filters';
 
-import { filterRecords, sortRecords } from '../../utils/utils';
+const defaultOrderFields = [
+    {
+        field: 'recordDate',
+        direction: 'DESC'
+    },
+    {
+        field: 'id',
+        direction: 'DESC'
+    }
+];
+
+const mapOrderFieldsToString = orderList => orderList.map(o => `${o.field}|${o.direction}`).join(',');
 
 class RecordList extends React.Component {
     state = {
@@ -17,7 +28,14 @@ class RecordList extends React.Component {
     componentWillMount() {
         const accountId = this.state.accountId || parseInt(this.props.match.params.id);
 
-        this.props.getRecords(accountId);
+        this.props.getRecords({
+            ...this.props.filters,
+            accountId,
+            orderFields: mapOrderFieldsToString(defaultOrderFields),
+            limit: 10,
+            offset: 0
+        });
+
         this.props.getCategories();
         this.setState({ accountId });
     }
@@ -36,14 +54,18 @@ class RecordList extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-    records: sortRecords(filterRecords(state.records)),
+    records: state.records,
+    filters: state.filters,
     accountId: state.accounts.length !== 0 ?
         state.accounts.filter(account => account.id === parseInt(props.match.params.id))[0].id :
         null
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getRecords: (accountId) => dispatch(startGetRecordsForAccount(accountId)),
+    getRecords: (filter) => {
+        dispatch(addFilter(filter));
+        dispatch(startGetRecordsForAccount(filter));
+    },
     getCategories: () => dispatch(startGetAllCategories())
 });
 

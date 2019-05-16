@@ -1,9 +1,10 @@
 import React from 'react';
-import DatePicker from "react-date-picker";
+import DatePicker from 'react-date-picker';
 import { connect } from 'react-redux';
 
 import { convertToSelectList } from '../../../utils/utils';
-import { filterRecords } from "../../../actions/records";
+import { addFilter } from '../../../actions/filters';
+import { startGetRecordsForAccount } from '../../../actions/records';
 
 class RecordsCategoryFilter extends React.Component {
     state = {
@@ -11,11 +12,11 @@ class RecordsCategoryFilter extends React.Component {
     };
 
     onChange = newState => {
-        this.props.dispatch(filterRecords({
-            type: 'DATE_LESS',
-            field: 'recordDate',
-            value: newState.date
-        }));
+        this.props.applyFilterToRecords({
+            ...this.props.filters,
+            date: newState.date
+        });
+
         this.setState(newState);
     };
 
@@ -36,7 +37,15 @@ class RecordsCategoryFilter extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    filters: state.filters,
     categories: convertToSelectList(state.categories, 'name', 'id')
 });
 
-export default connect(mapStateToProps)(RecordsCategoryFilter);
+const mapDispatchToProps = dispatch => ({
+    applyFilterToRecords: (filter) => {
+        dispatch(addFilter(filter));
+        dispatch(startGetRecordsForAccount(filter));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecordsCategoryFilter);

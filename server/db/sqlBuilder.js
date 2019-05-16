@@ -76,6 +76,21 @@ class SqlBuilder {
         return this;
     }
 
+    orderBy (columnsWithDirection) {
+        this.query += `ORDER BY ${columnsWithDirection.map(o => `${o.field} ${o.direction}`).join(',')} `;
+        return this;
+    }
+
+    limit (value) {
+        this.query += `LIMIT ${value} `;
+        return this;
+    }
+
+    offset (value) {
+        this.query += `OFFSET ${value} `;
+        return this;
+    }
+
     where () {
         this.query += `WHERE `;
         return this;
@@ -86,6 +101,16 @@ class SqlBuilder {
             this.query += `${data.label}.${data.column} = '${_replaceQuotes(value)}' `;
         } else {
             this.query += `${data.column} = '${_replaceQuotes(value)}' `;
+        }
+
+        return this;
+    }
+
+    lessOrEq (data, value) {
+        if (data.label) {
+            this.query += `${data.label}.${data.column} <= '${_replaceQuotes(value)}' `;
+        } else {
+            this.query += `${data.column} <= '${_replaceQuotes(value)}' `;
         }
 
         return this;

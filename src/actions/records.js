@@ -21,13 +21,10 @@ export const deleteRecord = (id) => ({
     id
 });
 
-export const filterRecords = (filter) => ({
-    type: 'RECORD_FILTER',
-    filter
-});
-
-export const startGetRecordsForAccount = (accountId) => dispatch => axios.get('/api/records', {params: {accountId}})
-    .then(response => dispatch(addRecordList(response.data)));
+export const startGetRecordsForAccount = (filter) => dispatch =>
+    axios.get('/api/records', {
+        params: filter
+    }).then(response => dispatch(addRecordList(response.data)));
 
 export const startAddRecord = record => dispatch => axios.post('/api/records', record)
     .then(response => dispatch(addRecord(response.data)));

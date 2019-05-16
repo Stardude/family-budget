@@ -1,8 +1,8 @@
 const _ = require('lodash');
 
-const Record = require('./../models/Record');
-const SqlBuilder = require('./../db/sqlBuilder');
-const execute = require('./../db/dbExecutor');
+const Record = require('../models/Record');
+const SqlBuilder = require('../db/sqlBuilder');
+const execute = require('../db/dbExecutor');
 
 const balanceService = require('./../services/balanceService');
 
@@ -28,15 +28,46 @@ module.exports.createAndGet = data => {
         .then(result => module.exports.getOneById(result.lastID));
 };
 
-module.exports.getAll = (accountId) => {
-    const sqlData = new SqlBuilder('records').select('MAIN')
+module.exports.getAll = ({accountId, orderFields, limit, offset, categoryId, date} = {}) => {
+    let sqlData = new SqlBuilder('records').select('MAIN')
         .columns(
             { label: 'MAIN', columns: _.keys(Record.getColumnDefinitions()) },
             { label: 'SECOND', columns: ['name'] },
             { label: 'THIRD', columns: ['currency']})
         .join('categories', 'SECOND', [{ label: 'MAIN', column: 'categoryId' }, { label: 'SECOND', column: 'id' }])
-        .join('accounts', 'THIRD', [{ label: 'MAIN', column: 'accountId' }, { label: 'THIRD', column: 'id' }])
-        .where().eq({ label: 'MAIN', column: 'accountId' }, accountId);
+        .join('accounts', 'THIRD', [{ label: 'MAIN', column: 'accountId' }, { label: 'THIRD', column: 'id' }]);
+
+    if (accountId || categoryId || date) {
+        sqlData = sqlData.where();
+    }
+
+    if (accountId) {
+        sqlData = sqlData.eq({ label: 'MAIN', column: 'accountId' }, accountId);
+        sqlData = (categoryId || date) ? sqlData.and() : sqlData;
+    }
+
+    if (categoryId) {
+        sqlData = sqlData.eq({ label: 'MAIN', column: 'categoryId' }, categoryId);
+        sqlData = (date) ? sqlData.and() : sqlData;
+    }
+
+    if (date) {
+        sqlData = sqlData.lessOrEq({ label: 'MAIN', column: 'recordDate' }, date);
+    }
+
+    if (orderFields) {
+        sqlData = sqlData.orderBy(orderFields.split(',')
+            .map(field => ({ field: `MAIN.${field.split('|')[0]}`, direction: field.split('|')[1] })))
+    }
+
+    if (limit) {
+        sqlData = sqlData.limit(limit);
+    }
+
+    if (offset) {
+        sqlData = sqlData.offset(offset);
+    }
+
     return execute(sqlData);
 };
 
