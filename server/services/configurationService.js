@@ -1,17 +1,17 @@
+const _ = require('lodash');
+
+const Configuration = require('./../models/Configuration');
 const SqlBuilder = require('./../db/sqlBuilder');
 const execute = require('./../db/dbExecutor');
 
-const columnDefinitions = {
-    accounts: require('../models/Account').getColumnDefinitions(),
-    categories: require('../models/Category').getColumnDefinitions(),
-    records: require('../models/Record').getColumnDefinitions()
+module.exports.get = () => {
+    const sqlData = new SqlBuilder('configuration').select()
+        .columns({ columns: _.keys(Configuration.getColumnDefinitions()) }).where().eq('id', 1).one();
+    return execute(sqlData).then(result => JSON.parse(result.data));
 };
 
-module.exports.dropDatabase = () => {
-    return execute(new SqlBuilder().drop('records'))
-        .then(() => execute(new SqlBuilder().drop('categories')))
-        .then(() => execute(new SqlBuilder().drop('accounts')))
-        .then(() => execute(new SqlBuilder().create('accounts', columnDefinitions.accounts)))
-        .then(() => execute(new SqlBuilder().create('categories', columnDefinitions.categories)))
-        .then(() => execute(new SqlBuilder().create('records', columnDefinitions.records)));
+module.exports.update = data => {
+    const configuration = new Configuration({ data: typeof data === 'string' ? data : JSON.stringify(data) });
+    const sqlData = new SqlBuilder('configuration').update(configuration).where().eq('id', 1);
+    return execute(sqlData);
 };

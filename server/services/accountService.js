@@ -11,27 +11,27 @@ const TRANSFER_ID = 26;
 module.exports.create = newAccount => {
     const account = new Account(newAccount);
     delete account.id;
-    const sqlData = new SqlBuilder('accounts').insert().columns({ label: null, columns: _.keys(account) }).values(account);
+    const sqlData = new SqlBuilder('accounts').insert().columns({ columns: _.keys(account) }).values(account);
     return execute(sqlData).then(result => module.exports.getOneById(result.lastID));
 };
 
 module.exports.getAll = () => {
-    const sqlData = new SqlBuilder('accounts').select('MAIN')
-        .columns({ label: 'MAIN', columns: _.keys(Account.getColumnDefinitions()) });
+    const sqlData = new SqlBuilder('accounts').select()
+        .columns({ columns: _.keys(Account.getColumnDefinitions()) });
     return execute(sqlData);
 };
 
 module.exports.getOneByName = name => {
-    const sqlData = new SqlBuilder('accounts').select('MAIN')
-        .columns({ label: 'MAIN', columns: _.keys(Account.getColumnDefinitions()) })
-        .where().eq({ label: 'MAIN', column: 'name' }, name).one();
+    const sqlData = new SqlBuilder('accounts').select()
+        .columns({ columns: _.keys(Account.getColumnDefinitions()) })
+        .where().eq('name', name).one();
     return execute(sqlData);
 };
 
 module.exports.getOneById = id => {
-    const sqlData = new SqlBuilder('accounts').select('MAIN')
-        .columns({ label: 'MAIN', columns: _.keys(Account.getColumnDefinitions()) })
-        .where().eq({ label: 'MAIN', column: 'id' }, id).one();
+    const sqlData = new SqlBuilder('accounts').select()
+        .columns({ columns: _.keys(Account.getColumnDefinitions()) })
+        .where().eq('id', id).one();
     return execute(sqlData);
 };
 
@@ -39,7 +39,7 @@ module.exports.update = (id, updated) => {
     const account = new Account(updated);
     delete account.creationDate;
     delete account.id;
-    const sqlData = new SqlBuilder('accounts').update(account).where().eq({ label: null, column: 'id' }, id);
+    const sqlData = new SqlBuilder('accounts').update(account).where().eq('id', id);
     return execute(sqlData);
 };
 
@@ -48,7 +48,7 @@ module.exports.updateAndGet = (id, updated) => {
 };
 
 module.exports.delete = id => {
-    const sqlData = new SqlBuilder('accounts').delete().where().eq({ label: null, column: 'id' }, id);
+    const sqlData = new SqlBuilder('accounts').delete().where().eq('id', id);
     return execute(sqlData).then(() => recordService.deleteByField('accountId', id));
 };
 

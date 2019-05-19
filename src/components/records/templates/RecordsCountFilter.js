@@ -2,7 +2,6 @@ import React from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 
-import { convertToSelectList } from '../../../utils/utils';
 import { addFilter } from '../../../actions/filters';
 import { startGetRecordsForAccount } from '../../../actions/records';
 
@@ -38,11 +37,11 @@ class RecordsCountFilter extends React.Component {
 
 const mapStateToProps = (state) => ({
     filters: state.filters,
-    countValues: convertToSelectList([
+    countValues: [
         { label: '10', value: 10 },
         { label: '100', value: 100 },
         { label: 'ALL', value: null }
-    ], 'label', 'value')
+    ]
 });
 
 const mapDispatchToProps = (dispatch) => ({

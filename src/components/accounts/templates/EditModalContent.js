@@ -1,9 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
+import { connect } from 'react-redux';
 
 class EditModalContent extends React.Component {
     state = {
-        currency: this.props.currency ? { label: this.props.currency, value: this.props.currency } : null
+        currency: this.props.currency ? { label: this.props.currency, value: this.props.currency } : this.props.curencies[0]
     };
 
     onChange = (newState) => {
@@ -44,14 +45,7 @@ class EditModalContent extends React.Component {
                             placeholder="Select currency..."
                             value={this.state.currency}
                             onChange={currency => this.onChange({currency})}
-                            options={
-                                [
-                                    {label: 'грн', value: 'грн'},
-                                    {label: 'USD', value: 'USD'},
-                                    {label: 'EUR', value: 'EUR'},
-                                    {label: 'PLN', value: 'PLN'}
-                                ]
-                            }
+                            options={this.props.curencies}
                         />
                     </div>
                 </div>
@@ -68,4 +62,13 @@ class EditModalContent extends React.Component {
     }
 }
 
-export default EditModalContent;
+const mapStateToProps = state => ({
+    curencies: [
+        { label: 'грн', value: 'грн' },
+        { label: 'USD', value: 'USD' },
+        { label: 'EUR', value: 'EUR' },
+        { label: 'PLN', value: 'PLN' }
+    ]
+});
+
+export default connect(mapStateToProps)(EditModalContent);

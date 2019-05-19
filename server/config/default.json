@@ -3,5 +3,14 @@
 
   "database": {
     "path": "./db/.database"
+  },
+
+  "rate": {
+    "enabled": true,
+    "baseUrl": "http://data.fixer.io/api/latest",
+    "accessKey": "3dabff1dd2a1f0fb1bf6f6e4739b149a",
+    "symbols": [
+      "UAH","USD","EUR","PLN"
+    ]
   }
 }

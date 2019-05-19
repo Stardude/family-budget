@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addFilter } from '../../../actions/filters';
 import { startGetRecordsForAccount } from '../../../actions/records';
 
-class RecordsCountFilter extends React.Component {
+class RecordsNavigationFilter extends React.Component {
     onChange = newState => {
         this.props.applyFilterToRecords({
             ...this.props.filters,
@@ -36,7 +36,7 @@ class RecordsCountFilter extends React.Component {
                 </button>
                 <button
                     className="button remove-left-border"
-                    style={{ 'margin-left': '-0.5rem' }}
+                    style={{ 'marginLeft': '-0.5rem' }}
                     onClick={e => this.onChange({ offset: this.calculateOffset(1) })}
                 >
                     {'➡'}
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecordsCountFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(RecordsNavigationFilter);

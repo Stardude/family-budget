@@ -97,7 +97,9 @@ class SqlBuilder {
     }
 
     eq (data, value) {
-        if (data.label) {
+        if (typeof data === 'string') {
+            this.query += `${data} = '${_replaceQuotes(value)}' `;
+        } else if (data.label) {
             this.query += `${data.label}.${data.column} = '${_replaceQuotes(value)}' `;
         } else {
             this.query += `${data.column} = '${_replaceQuotes(value)}' `;

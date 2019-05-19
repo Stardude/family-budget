@@ -6,6 +6,7 @@
     padding: $s-size;
     font-weight: 600;
     color: $text-main-color;
+    min-height: $m-size;
 
     &:not(:last-child) {
         border-bottom: 1px solid $text-main-color;
@@ -18,6 +19,10 @@
 
 .list-item--justify-end {
     justify-content: flex-end;
+}
+
+.list-item--no-border {
+    border: none !important;
 }
 
 .list-item__section {
