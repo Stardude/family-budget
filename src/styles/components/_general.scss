@@ -73,6 +73,20 @@
     }
 }
 
+.link {
+    display: inline-block;
+
+    outline: none;
+    font-weight: 600;
+    color: $text-main-color;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
 .remove-left-border {
     border-left: none;
     border-top-left-radius: 0;

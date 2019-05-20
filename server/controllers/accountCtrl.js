@@ -4,7 +4,7 @@ const router = express.Router();
 const service = require('./../services/accountService');
 
 router.get('/', (req, res) => {
-    service.getAll()
+    service.getAllAndSynchronizeBalance()
         .then(result => res.status(200).send(result))
         .catch(() => res.sendStatus(500));
 });

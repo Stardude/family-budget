@@ -7,9 +7,10 @@ import AccountList from '../accounts/AccountList';
 import CategoryList from '../categories/CategoryList';
 import RecordList from '../records/RecordList';
 
-import NewAccount from '../accounts/NewAccount';
 import NewCategory from '../categories/NewCategory';
+
 import RecordsMenuBar from '../records/templates/MenuBar';
+import AccountMenuBar from '../accounts/templates/MenuBar';
 
 import AccountSidebar from '../accounts/AccountSidebar';
 import CategorySidebar from '../categories/CategorySidebar';
@@ -18,7 +19,7 @@ import RecordSidebar from '../records/RecordSidebar';
 const Body = props => (
     <div className="body">
         <div className="menu-bar">
-            <Route path="/" render={props => (<MenuBar><NewAccount /></MenuBar>)} exact />
+            <Route path="/" component={AccountMenuBar} exact />
             <Route path="/categories" render={props => (<MenuBar><NewCategory /></MenuBar>)} exact />
             <Route path="/accounts/:id" component={RecordsMenuBar} exact />
         </div>

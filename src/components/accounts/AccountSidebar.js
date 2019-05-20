@@ -13,13 +13,13 @@ class AccountSidebar extends React.Component {
     }
 
     getConfiguration = () => {
-        axios.get('/api/configuration').then(response => {
-            this.setState({
-                accountIds: response.data.accountIdsToIncludeIntoTotalBalance,
-                rates: this.translateRates(response.data.rate.rates)
-            });
-        });
+        axios.get('/api/configuration').then(this.onConfigurationResponse);
     };
+
+    onConfigurationResponse = response => this.setState({
+        accountIds: response.data.accountIdsToIncludeIntoTotalBalance,
+        rates: this.translateRates(response.data.rate.rates)
+    });
 
     translateRates = rates => {
         return {
@@ -46,12 +46,19 @@ class AccountSidebar extends React.Component {
         }
     };
 
+    updateRates = () => {
+        axios.post('/api/configuration/update-rates').then(this.onConfigurationResponse);
+    };
+
     render() {
         return (
             <div className="list">
                 <div className="list-item list-item--no-border">
                     <div className="list-item__section">
                         <span>{this.getTotalBalance('грн')} грн</span>
+                    </div>
+                    <div className="list-item__section list-item__section--align-end">
+                        <span className="link" onClick={this.updateRates}>( Update )</span>
                     </div>
                 </div>
                 <div className="list-item list-item--no-border">

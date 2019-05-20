@@ -4,11 +4,11 @@ const moment = require('moment');
 
 const configurationService = require('./configurationService');
 
-module.exports.updateCurrencyRate = () => {
+module.exports.updateCurrencyRate = (forceUpdate) => {
     if (rate.enabled) {
-        configurationService.get().then(configuration => {
-            if (!configuration.rate || moment().isAfter(configuration.rate.date)) {
-                axios.get(`${rate.baseUrl}?access_key=${rate.accessKey}&symbols=${rate.symbols.join(',')}`)
+        return configurationService.get().then(configuration => {
+            if (!configuration.rate || moment().isAfter(configuration.rate.date) || forceUpdate) {
+                return axios.get(`${rate.baseUrl}?access_key=${rate.accessKey}&symbols=${rate.symbols.join(',')}`)
                     .then(({data}) => {
                         if (data.success) {
                             configuration.rate = {
@@ -17,7 +17,7 @@ module.exports.updateCurrencyRate = () => {
                                 rates: data.rates
                             };
 
-                            configurationService.update(configuration);
+                            return configurationService.update(configuration);
                         }
                     });
             }

@@ -1,6 +1,6 @@
 {
   "name": "family-budget",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Node.js application for home accounting",
   "main": "index.js",
   "scripts": {

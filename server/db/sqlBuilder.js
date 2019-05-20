@@ -71,8 +71,8 @@ class SqlBuilder {
         return this;
     }
 
-    groupBy (column) {
-        this.query += `GROUP BY ${column} `;
+    groupBy (columns) {
+        this.query += `GROUP BY ${columns.join(',')} `;
         return this;
     }
 

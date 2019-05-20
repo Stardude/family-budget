@@ -5,6 +5,7 @@ const SqlBuilder = require('./../db/sqlBuilder');
 const execute = require('./../db/dbExecutor');
 
 const recordService = require('./recordService');
+const balanceService = require('./balanceService');
 
 const TRANSFER_ID = 26;
 
@@ -19,6 +20,10 @@ module.exports.getAll = () => {
     const sqlData = new SqlBuilder('accounts').select()
         .columns({ columns: _.keys(Account.getColumnDefinitions()) });
     return execute(sqlData);
+};
+
+module.exports.getAllAndSynchronizeBalance = () => {
+    return balanceService.synchronizeBalanceForAllAccounts().then(module.exports.getAll);
 };
 
 module.exports.getOneByName = name => {

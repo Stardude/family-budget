@@ -1,16 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-const service = require('./../services/configurationService');
+const configurationService = require('./../services/configurationService');
+const currencyRateService = require('./../services/currencyRateService');
 
 router.get('/', (req, res) => {
-    service.get()
+    configurationService.get()
         .then(result => res.status(200).send(result))
         .catch(() => res.sendStatus(500));
 });
 
 router.post('/', (req, res) => {
-    service.update(req.body)
+    configurationService.update(req.body)
+        .then(result => res.status(201).send(result))
+        .catch(() => res.sendStatus(500));
+});
+
+router.post('/update-rates', (req, res) => {
+    currencyRateService.updateCurrencyRate(true)
+        .then(configurationService.get)
         .then(result => res.status(201).send(result))
         .catch(() => res.sendStatus(500));
 });
