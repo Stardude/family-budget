@@ -17,9 +17,9 @@ module.exports.synchronizeAccountBalance = accountId => {
         let balance = 0;
 
         if (result.length === 2) {
-            balance = result[1].total - result[0].total;
+            balance = (result[1].total - result[0].total).toFixed(2);
         } else if (result.length === 1) {
-            balance = result[0].isIncome === 'true' ? result[0].total : -result[0].total;
+            balance = result[0].isIncome === 'true' ? result[0].total.toFixed(2) : -result[0].total.toFixed(2);
         }
 
         return accountService.getOneById(accountId).then(account => {
@@ -57,9 +57,9 @@ module.exports.synchronizeBalanceForAllAccounts = () => {
             let balance = 0;
 
             if (value.plus && value.minus) {
-                balance = value.plus - value.minus;
+                balance = (value.plus - value.minus).toFixed(2);
             } else {
-                balance = value.plus || -value.minus;
+                balance = value.plus.toFixed(2) || -value.minus.toFixed(2);
             }
 
             return accountService.getOneById(accountId).then(account => {

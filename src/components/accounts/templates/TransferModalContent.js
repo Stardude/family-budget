@@ -1,6 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
+import DatePicker from 'react-date-picker';
+import moment from 'moment';
 
 import { convertToSelectList } from '../../../utils/utils';
 
@@ -10,7 +12,8 @@ class TransferModalContent extends React.Component {
         amount: '',
         rate: 1,
         total: '',
-        comment: ''
+        comment: '',
+        date: moment().startOf('day').toDate()
     };
 
     onChange = (newState) => {
@@ -37,6 +40,7 @@ class TransferModalContent extends React.Component {
         const rate = this.state.rate;
         const total = this.state.total;
         const comment = this.state.comment;
+        const date = this.state.date;
 
         this.props.onSubmit({
             destination,
@@ -44,7 +48,8 @@ class TransferModalContent extends React.Component {
             amount,
             rate,
             total,
-            comment
+            comment,
+            date
         });
     };
 
@@ -118,6 +123,22 @@ class TransferModalContent extends React.Component {
                                value={this.state.comment}
                                onChange={e => this.onChange({comment: e.target.value})}
                                className="list-item__input"/>
+                    </div>
+                </div>
+                <div className="list-item">
+                    <div className="list-item__section size-30">
+                        <div>Date:</div>
+                    </div>
+                    <div className="list-item__section size-70">
+                        <DatePicker
+                            className="list-item__date-picker"
+                            calendarClassName="list-item__react-calendar"
+                            value={this.state.date}
+                            clearIcon={null}
+                            calendarIcon={null}
+                            showLeadingZeros={true}
+                            onChange={date => this.onChange({date})}
+                        />
                     </div>
                 </div>
                 <div className="list-item list-item--justify-end">

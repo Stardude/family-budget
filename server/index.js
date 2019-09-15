@@ -16,5 +16,5 @@ require('./db/db').connect();
 
 app.listen(PORT, () => {
     console.log(`The server is running on port ${PORT}`);
-    updateCurrencyRate();
+    setTimeout(updateCurrencyRate, 10000);
 });

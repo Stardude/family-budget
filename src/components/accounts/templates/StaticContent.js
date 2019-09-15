@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import ModalWindow from '../../general/ModalWindow';
 import DeleteModalContent from '../../general/DeleteModalContent';
@@ -9,7 +8,7 @@ import EditModalContent from "./EditModalContent";
 import TransferModalContent from './TransferModalContent';
 
 import { startDeleteAccount, startEditAccount, startGetAccountByName, startTransfer } from '../../../actions/accounts';
-import { checkIfValuesExist } from "../../../utils/utils";
+import { checkIfValuesExist } from '../../../utils/utils';
 
 class StaticContent extends React.Component {
     state = {
@@ -45,12 +44,12 @@ class StaticContent extends React.Component {
         }
     };
 
-    onTransferSubmit = ({destination, destinationName, amount, rate, total, comment}) => {
+    onTransferSubmit = ({destination, destinationName, amount, rate, total, comment, date}) => {
         const source = this.props.id;
         const sourceName = this.props.name;
         let error = undefined;
 
-        if (checkIfValuesExist(destination, amount, rate, total)) {
+        if (checkIfValuesExist(destination, amount, date, rate, total)) {
             this.props.transfer({
                 source,
                 sourceName,
@@ -58,7 +57,8 @@ class StaticContent extends React.Component {
                 destinationName,
                 amount,
                 total,
-                comment
+                comment,
+                date
             }).then(() => this.setState({ error, isTransfer: false }))
         } else {
             error = 'Please, complete all fields';
@@ -109,7 +109,7 @@ class StaticContent extends React.Component {
                 }
             </div>
         );
-    }   
+    }
 }
 
 const mapDispatchToProps = (dispatch) => ({

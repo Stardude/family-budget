@@ -64,7 +64,8 @@ module.exports.transfer = parameters => {
         price: parameters.amount,
         amount: 1,
         isIncome: false,
-        comment: `${parameters.destinationName}: ${parameters.comment}`
+        comment: `${parameters.destinationName}: ${parameters.comment}`,
+        date: parameters.date
     }).then(record => recordService.create({
         accountId: parameters.destination,
         categoryId: TRANSFER_ID,
@@ -72,7 +73,8 @@ module.exports.transfer = parameters => {
         amount: 1,
         isIncome: true,
         comment: `${parameters.sourceName}: ${parameters.comment}`,
-        transferRecordId: record.id
+        transferRecordId: record.id,
+        date: parameters.date
     }).then(result => recordService.update(record.id, Object.assign(record, { transferRecordId: result.lastID }))
     )).then(() => Promise.all([
         module.exports.getOneById(parameters.source),

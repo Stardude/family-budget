@@ -24,9 +24,9 @@ class AccountSidebar extends React.Component {
     translateRates = rates => {
         return {
             грн: 1,
-            USD: (rates.UAH / rates.USD).toPrecision(4),
-            EUR: rates.UAH.toPrecision(4),
-            PLN: (rates.UAH / rates.PLN).toPrecision(3)
+            USD: (rates.UAH / rates.USD).toFixed(2),
+            EUR: rates.UAH.toFixed(2),
+            PLN: (rates.UAH / rates.PLN).toFixed(2)
         }
     };
 
@@ -42,7 +42,7 @@ class AccountSidebar extends React.Component {
                 return (this.state.accountIds.includes(account.id)) ?
                     sum + (parseFloat(account.balance) * this.state.rates[account.currency]) :
                     sum;
-            }, 0).toPrecision(8);
+            }, 0).toFixed(2);
         }
     };
 

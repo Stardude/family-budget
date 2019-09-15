@@ -7,7 +7,7 @@ const configurationService = require('./configurationService');
 module.exports.updateCurrencyRate = (forceUpdate) => {
     if (rate.enabled) {
         return configurationService.get().then(configuration => {
-            if (!configuration.rate || moment().isAfter(configuration.rate.date) || forceUpdate) {
+            if (!configuration.rate || moment().startOf('day').isAfter(configuration.rate.date) || forceUpdate) {
                 return axios.get(`${rate.baseUrl}?access_key=${rate.accessKey}&symbols=${rate.symbols.join(',')}`)
                     .then(({data}) => {
                         if (data.success) {

@@ -62,10 +62,10 @@ module.exports.getAll = ({accountId, orderFields, limit, offset, categoryId, dat
 
     if (limit) {
         sqlData = sqlData.limit(limit);
-    }
 
-    if (offset) {
-        sqlData = sqlData.offset(offset);
+        if (offset) {
+            sqlData = sqlData.offset(offset);
+        }
     }
 
     return execute(sqlData);
